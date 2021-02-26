@@ -35,7 +35,7 @@ import (
 	"github.com/rclone/rclone/lib/encoder"
 	"github.com/rclone/rclone/lib/pacer"
 	"github.com/rclone/rclone/lib/readers"
-	mega "github.com/t3rm1n4l/go-mega"
+	mega "github.com/awcjack/go-mega"
 )
 
 const (
@@ -97,6 +97,7 @@ permanently delete objects instead.`,
 type Options struct {
 	User       string               `config:"user"`
 	Pass       string               `config:"pass"`
+	Factor	   string				`config:"factor"`
 	Debug      bool                 `config:"debug"`
 	HardDelete bool                 `config:"hard_delete"`
 	Enc        encoder.MultiEncoder `config:"encoding"`
@@ -216,7 +217,7 @@ func NewFs(ctx context.Context, name, root string, m configmap.Mapper) (fs.Fs, e
 			})
 		}
 
-		err := srv.Login(opt.User, opt.Pass)
+		err := srv.Login(opt.User, opt.Pass, opt.Factor)
 		if err != nil {
 			return nil, errors.Wrap(err, "couldn't login")
 		}
